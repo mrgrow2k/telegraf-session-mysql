@@ -11,6 +11,15 @@ MySQL powered session middleware for [Telegraf](https://github.com/telegraf/tele
 ```js
 $ npm install telegraf-session-mysql
 ```
+## Setup
+
+you should create a table named sessions in your database.
+```SQL
+CREATE TABLE `sessions` (
+  `id` varchar(100) NOT NULL,
+  `session` longtext NOT NULL,
+  PRIMARY KEY (`id`))
+```
 
 ## Example
 
