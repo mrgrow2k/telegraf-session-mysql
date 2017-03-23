@@ -1,19 +1,25 @@
 const Telegraf = require('telegraf')
 const should = require('should')
-const RedisSession = require('../lib/session')
+const MySQLSession = require('../lib/session')
+const options = {
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'telegraf_sessions'
+}
 
 describe('Telegraf Session', function () {
   it('should retrieve and save session', function (done) {
-    const redisSession = new RedisSession()
+    const mySQLSession = new MySQLSession(options)
     const key = 'session.key'
-    redisSession.getSession(key)
+    mySQLSession.getSession(key)
       .then((session) => {
         should.exist(session)
         session.foo = 42
-        return redisSession.saveSession(key, session)
+        return mySQLSession.saveSession(key, session)
       })
       .then(() => {
-        return redisSession.getSession(key)
+        return mySQLSession.getSession(key)
       })
       .then((session) => {
         should.exist(session)
@@ -24,7 +30,7 @@ describe('Telegraf Session', function () {
 
   it('should be defined', function (done) {
     const app = new Telegraf()
-    const session = new RedisSession()
+    const session = new MySQLSession(options)
     app.on('text',
       session.middleware(),
       (ctx) => {
@@ -37,7 +43,7 @@ describe('Telegraf Session', function () {
 
   it('should handle existing session', function (done) {
     const app = new Telegraf()
-    const session = new RedisSession()
+    const session = new MySQLSession(options)
     app.on('text',
       session.middleware(),
       (ctx) => {
@@ -51,7 +57,7 @@ describe('Telegraf Session', function () {
 
   it('should handle not existing session', function (done) {
     const app = new Telegraf()
-    const session = new RedisSession()
+    const session = new MySQLSession(options)
     app.on('text',
       session.middleware(),
       (ctx) => {
@@ -64,7 +70,7 @@ describe('Telegraf Session', function () {
 
   it('should handle session reset', function (done) {
     const app = new Telegraf()
-    const session = new RedisSession()
+    const session = new MySQLSession(options)
     app.on('text',
       session.middleware(),
       (ctx) => {
@@ -74,41 +80,5 @@ describe('Telegraf Session', function () {
         done()
       })
     app.handleUpdate({message: {chat: {id: 1}, from: {id: 1}, text: 'hey'}})
-  })
-
-  it('ttl', function (done) {
-    this.timeout(5000)
-    const app = new Telegraf()
-    const session = new RedisSession({ttl: 1})
-    app.on('photo',
-      session.middleware(),
-      (ctx) => {
-        ctx.session.photo = 'sample.png'
-        ctx.session.photo.should.be.equal('sample.png')
-        setTimeout(function () {
-          app.handleUpdate({
-            message: {
-              chat: {id: 1},
-              from: {id: 1},
-              text: 'hey'
-            }
-          })
-        }, 2000)
-      })
-    app.on('text',
-      session.middleware(),
-      (ctx) => {
-        ctx.session.should.not.have.property('photo')
-        done()
-      })
-    setTimeout(function () {
-      app.handleUpdate({
-        message: {
-          chat: {id: 1},
-          from: {id: 1},
-          photo: {}
-        }
-      })
-    }, 100)
   })
 })

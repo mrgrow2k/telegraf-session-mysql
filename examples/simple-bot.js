@@ -1,10 +1,14 @@
 const Telegraf = require('telegraf')
-const RedisSession = require('../lib/session')
+const MySQLSession = require('../lib/session')
 
 const telegraf = new Telegraf(process.env.BOT_TOKEN)
 
-// Redis client available at session.client
-const session = new RedisSession()
+const session = new MySQLSession({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'telegraf_sessions'
+})
 
 telegraf.use(session.middleware())
 

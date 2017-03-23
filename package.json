@@ -1,11 +1,11 @@
 {
-  "name": "telegraf-session-redis",
+  "name": "telegraf-session-mysql",
   "version": "4.2.0",
-  "description": "Redis powered session middleware for Telegraf",
+  "description": "MySQL powered session middleware for Telegraf",
   "main": "lib/session.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/telegraf/telegraf-session-redis.git"
+    "url": "https://github.com/hnaderi/telegraf-session-mysql.git"
   },
   "keywords": [
     "telegram",
@@ -14,14 +14,14 @@
     "bot framework",
     "session",
     "middleware",
-    "redis"
+    "mysql"
   ],
-  "author": "Vitaly Domnikov <dotcypress@gmail.com>",
+  "author": "Hossein Naderi <Hossein-Naderi@hotmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/telegraf/telegraf-session-redis/issues"
+    "url": "https://github.com/hnaderi/telegraf-session-mysql/issues"
   },
-  "homepage": "https://github.com/telegraf/telegraf-session-redis#readme",
+  "homepage": "https://github.com/hnaderi/telegraf-session-mysql#readme",
   "engines": {
     "node": ">=6.2.1"
   },
@@ -32,9 +32,8 @@
     "test": "eslint . && mocha test --require should"
   },
   "dependencies": {
-    "bluebird": "^3.4.0",
     "debug": "^2.2.0",
-    "redis": "^2.6.0-1"
+    "promise-mysql": "^3.0.0"
   },
   "peerDependencies": {
     "telegraf": "^2.0.0 || ^3.0.0"
