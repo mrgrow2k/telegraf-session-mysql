@@ -5,6 +5,7 @@
 # MySQL session middleware for Telegraf
 
 MySQL powered session middleware for [Telegraf](https://github.com/telegraf/telegraf). forked from Redis session project for telegraf.
+Saves session both on mysql and in memory and use memory where possible.
 
 ## Installation
 
@@ -29,7 +30,7 @@ const MySQLSession = require('telegraf-session-mysql')
 
 const telegraf = new Telegraf(process.env.BOT_TOKEN)
 
-const session = new RedisSession({
+const session = new MySQLSession({
   host: 'localhost',
   user: 'user',
   password: 'pass',
