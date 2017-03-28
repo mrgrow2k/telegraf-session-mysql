@@ -65,7 +65,7 @@ describe('Telegraf Session', function () {
         ctx.session.should.not.have.property('foo')
         done()
       })
-    app.handleUpdate({message: {chat: {id: 1}, from: {id: 999}, text: 'hey'}})
+    app.handleUpdate({message: {chat: {id: 2}, from: {id: 999}, text: 'hey'}})
   })
 
   it('should handle session reset', function (done) {
@@ -81,4 +81,20 @@ describe('Telegraf Session', function () {
       })
     app.handleUpdate({message: {chat: {id: 1}, from: {id: 1}, text: 'hey'}})
   })
+
+  // it('', function (done) {
+  //   const sampleCTX= {message: {chat: {id: 1}, from: {id: 1}, text: 'hey'}}
+  //   const app = new Telegraf()
+  //   const session = new MySQLSession(options)
+
+  //   session.saveForContext(sampleCTX, {page})
+  //   app.on('text',
+  //     session.middleware(),
+  //     (ctx) => {
+  //       should.exist(ctx.session)
+  //       ctx.session.should.have.property('test')
+  //       done()
+  //     })
+  //   app.handleUpdate(sampleCTX)
+  // })
 })
