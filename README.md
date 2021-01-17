@@ -12,15 +12,6 @@ Saves session both on mysql and in memory and use memory where possible.
 ```js
 $ npm install telegraf-session-mysql
 ```
-## Setup
-
-you should create a table named sessions in your database.
-```SQL
-CREATE TABLE `sessions` (
-  `id` varchar(100) NOT NULL,
-  `session` longtext NOT NULL,
-  PRIMARY KEY (`id`))
-```
 
 ## Example
 
@@ -81,9 +72,7 @@ Default implementation of `getSessionKey`:
 
 ```js
 function getSessionKey(ctx) {
-  if (!ctx.from || !ctx.chat) {
-    return
-  }
+  if (!ctx.from || !ctx.chat) { return }
   return `${ctx.from.id}:${ctx.chat.id}`
 }
 ```
@@ -93,8 +82,6 @@ function getSessionKey(ctx) {
 To destroy a session simply set it to `null`.
 
 ```js
-telegraf.on('text', (ctx) => {
-  ctx.session = null
-})
+telegraf.on('text', (ctx) => { ctx.session = null })
 
 ```
